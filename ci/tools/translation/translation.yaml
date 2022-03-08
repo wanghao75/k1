@@ -1,12 +1,12 @@
 repositories:
-- owner: new-op
+  owner: new-op
   repo: community
   auto_create_issue: yes
-  - trigger_pr_path: 'docs/zh'
+    trigger_pr_path: 'docs/zh'
     file_extension: [doc, md, json]
     assign_issue:
-    - title: "[Auto] This is an English translation issue."
-    - sign_to: Peanut_Huang
+      title: "[Auto] This is an English translation issue."
+      sign_to: Peanut_Huang
 #  - trigger_pr_path: 'docs/en'
 #    file_extension: [doc, md, json]
 #    assign_issue:
