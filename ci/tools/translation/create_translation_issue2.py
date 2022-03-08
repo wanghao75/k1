@@ -175,7 +175,7 @@ def main(owner, repo, token, number):
                             current_issue_title[issue_trigger["trigger_pr_path"]] = issue_trigger["assign_issue"][0]["title"]
                         else:
                             continue
-                
+
                 # get pr comments
                 comment_url = "https://gitee.com/api/v5/repos/{}/{}/pulls/{}/comments?page=1&per_page=100" \
                     .format(owner, repo, number)
@@ -183,18 +183,22 @@ def main(owner, repo, token, number):
                     "access_token": token,
                 }
 
-                regex = re.compile("/trigger")
+                regex = re.compile("/trigger yes")
+                regex2 = re.compile("/trigger no")
                 r = requests.get(comment_url, params=comment_params)
                 if r.status_code != 200:
                     print("ERROR: bad request, status code: {}".format(r.status_code))
                     sys.exit(1)
                 items = json.loads(r.text)
-                match_flag = False
+                match_yes = False
+                match_no = False
                 for i in items:
                     if regex.match(i["body"]):
-                        match_flag = True
-                
-                if file_count > 0 and match_flag:
+                        match_yes = True
+                    elif regex2.match(i["body"]):
+                        match_no = True
+
+                if file_count > 0 and match_yes:
                     if results:
                         for result in results:
                             issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
@@ -211,7 +215,7 @@ def main(owner, repo, token, number):
                         for k in current_file_extension.keys():
                             create_issue(token, owner, repo, number, current_issue_title[k],
                                          current_assignee[k], pr_url)
-                elif file_count > 0 and not match_flag:
+                elif file_count > 0 and match_no:
                     continue
                 else:
                     print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed"
