@@ -159,7 +159,6 @@ def main(owner, repo, token, number):
 
     if owner in owner_repo_relationship.keys() and repo in owner_repo_relationship.values():
         for repository in repositories:
-            print("true or false: ", repository["auto_create_issue"])
             if owner == repository["owner"] and repo == repository["repo"] and repository["auto_create_issue"]:
                 file_count = 0
                 diff_files, pr_url = get_diff_files(owner, repo, number, token)
@@ -209,53 +208,52 @@ def main(owner, repo, token, number):
                 if r.status_code != 200:
                     print("ERROR: bad request, status code: {}".format(r.status_code))
                     sys.exit(1)
-                else:
-                    items = json.loads(r.text)
-                    print(items)
-                    match_flag = False
-                    for i in items:
-                        if regex.match(i["body"]):
-                            match_flag = True
+                items = json.loads(r.text)
+                print(items)
+                match_flag = False
+                for i in items:
+                    if regex.match(i["body"]):
+                        match_flag = True
 
-                    if match_flag:
-                        file_count = 0
-                        diff_files, pr_url = get_diff_files(owner, repo, number, token)
-                        for issue_trigger in repository["issue_triggers"]:
-                            file_extension.append(issue_trigger["file_extension"])
-                            trigger_path.append(issue_trigger["trigger_pr_path"])
-                            for diff_file in diff_files:
-                                if diff_file.startswith(issue_trigger["trigger_pr_path"]) \
-                                        and diff_file.split('.')[-1] in issue_trigger["file_extension"]:
-                                    print("file {} has been changed".format(diff_file))
-                                    file_count += 1
-                                    current_assignee[issue_trigger["trigger_pr_path"]] = \
-                                    issue_trigger["assign_issue"][1]["sign_to"]
-                                    current_file_extension[issue_trigger["trigger_pr_path"]] = issue_trigger[
-                                        "file_extension"]
-                                    current_issue_title[issue_trigger["trigger_pr_path"]] = \
-                                    issue_trigger["assign_issue"][0]["title"]
-                                else:
-                                    continue
-                        if file_count > 0:
-                            if results:
-                                for result in results:
-                                    issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
-                                    issue_related_pr_number[issue_number] = result.get("number")
-                                if number in issue_related_pr_number.keys():
-                                    print("Error: issue has already created, please go to check issue: #{}"
-                                          .format(issue_related_pr_number[number]))
-                                    sys.exit(1)
-                                else:
-                                    for k in current_file_extension.keys():
-                                        create_issue(token, owner, repo, number, current_issue_title[k],
-                                                     current_assignee[k], pr_url)
+                if match_flag:
+                    file_count = 0
+                    diff_files, pr_url = get_diff_files(owner, repo, number, token)
+                    for issue_trigger in repository["issue_triggers"]:
+                        file_extension.append(issue_trigger["file_extension"])
+                        trigger_path.append(issue_trigger["trigger_pr_path"])
+                        for diff_file in diff_files:
+                            if diff_file.startswith(issue_trigger["trigger_pr_path"]) \
+                                    and diff_file.split('.')[-1] in issue_trigger["file_extension"]:
+                                print("file {} has been changed".format(diff_file))
+                                file_count += 1
+                                current_assignee[issue_trigger["trigger_pr_path"]] = \
+                                issue_trigger["assign_issue"][1]["sign_to"]
+                                current_file_extension[issue_trigger["trigger_pr_path"]] = issue_trigger[
+                                    "file_extension"]
+                                current_issue_title[issue_trigger["trigger_pr_path"]] = \
+                                issue_trigger["assign_issue"][0]["title"]
+                            else:
+                                continue
+                    if file_count > 0:
+                        if results:
+                            for result in results:
+                                issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
+                                issue_related_pr_number[issue_number] = result.get("number")
+                            if number in issue_related_pr_number.keys():
+                                print("Error: issue has already created, please go to check issue: #{}"
+                                      .format(issue_related_pr_number[number]))
+                                sys.exit(1)
                             else:
                                 for k in current_file_extension.keys():
                                     create_issue(token, owner, repo, number, current_issue_title[k],
                                                  current_assignee[k], pr_url)
                         else:
-                            print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed"
-                                  .format(owner, repo, trigger_path, file_extension))
+                            for k in current_file_extension.keys():
+                                create_issue(token, owner, repo, number, current_issue_title[k],
+                                             current_assignee[k], pr_url)
+                    else:
+                        print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed"
+                              .format(owner, repo, trigger_path, file_extension))
 
     else:
         print("ERROR: wrong repo {} or wrong owner {}, please check!".format(repo, owner))
