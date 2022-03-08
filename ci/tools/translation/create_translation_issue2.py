@@ -184,8 +184,8 @@ def main(owner, repo, token, number):
                     "direction": "desc",
                 }
 
-                regex = re.compile("/trigger yes")
-                regex2 = re.compile("/trigger no")
+                regex = re.compile("/translate yes")
+                regex2 = re.compile("/translate no")
                 r = requests.get(comment_url, params=comment_params)
                 if r.status_code != 200:
                     print("ERROR: bad request, status code: {}".format(r.status_code))
