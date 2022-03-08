@@ -1,7 +1,7 @@
 repositories:
 - owner: new-op
   repo: community
-  auto_create_issue: True
+  auto_create_issue: False
   issue_triggers:
   - trigger_pr_path: 'docs/zh'
     file_extension: [doc, md, json]
