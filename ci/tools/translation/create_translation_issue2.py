@@ -181,6 +181,7 @@ def main(owner, repo, token, number):
                     .format(owner, repo, number)
                 comment_params = {
                     "access_token": token,
+                    "direction": "desc",
                 }
 
                 regex = re.compile("/trigger yes")
