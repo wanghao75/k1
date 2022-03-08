@@ -1,4 +1,3 @@
-# py file
 import requests
 import yaml
 import sys
@@ -210,9 +209,14 @@ def main(owner, repo, token, number):
                     print("ERROR: bad request, status code: {}".format(r.status_code))
                     sys.exit(1)
                 else:
-                    body = json.loads(r.text).get("body")
-                    print(body)
-                    if regex.match(body):
+                    items = json.loads(r.text)
+                    print(items)
+                    match_flag = False
+                    for i in items:
+                        if regex.match(i["body"]):
+                            match_flag = True
+
+                    if match_flag:
                         file_count = 0
                         diff_files, pr_url = get_diff_files(owner, repo, number, token)
                         for issue_trigger in repository["issue_triggers"]:
@@ -251,7 +255,7 @@ def main(owner, repo, token, number):
                         else:
                             print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed"
                                   .format(owner, repo, trigger_path, file_extension))
-                    
+
     else:
         print("ERROR: wrong repo {} or wrong owner {}, please check!".format(repo, owner))
         sys.exit(1)
