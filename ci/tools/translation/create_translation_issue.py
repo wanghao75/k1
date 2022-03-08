@@ -159,6 +159,7 @@ def main(owner, repo, token, number):
 
     if owner in owner_repo_relationship.keys() and repo in owner_repo_relationship.values():
         for repository in repositories:
+            print("true or false: ", repository["auto_create_issue"])
             if owner == repository["owner"] and repo == repository["repo"] and repository["auto_create_issue"]:
                 file_count = 0
                 diff_files, pr_url = get_diff_files(owner, repo, number, token)
