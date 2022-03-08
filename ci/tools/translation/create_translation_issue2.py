@@ -140,7 +140,7 @@ def main(owner, repo, token, number):
     :param number: pull request number
     :return:
     """
-    content = load_yaml("translation.yaml")
+    content = load_yaml("translation2.yaml")
     results = check_issue_exits(token, owner, repo)
     issue_related_pr_number = {}
     owner_repo_relationship = {}
