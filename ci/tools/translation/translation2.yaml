@@ -1,6 +1,9 @@
 repositories:
 - owner: new-op
   repo: community
+  # trigger_command and cancel_command are used to controll creating issue or not
+  trigger_command: "/translate"
+  cancel_command: "/translate cancel"
   issue_triggers:
   - trigger_pr_path: 'docs/zh'
     file_extension: [doc, md, json]
