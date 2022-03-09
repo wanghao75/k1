@@ -151,11 +151,13 @@ def main(owner, repo, token, number):
     trigger_path = []
     try:
         repositories = content["repositories"]
+        print(repositories)
     except KeyError as e:
         print(e)
         sys.exit(1)
     for r in repositories:
         owner_repo_relationship[r["owner"]] = r["repo"]
+    print(owner_repo_relationship)
 
     if owner in owner_repo_relationship.keys() and repo in owner_repo_relationship.values():
         for repository in repositories:
