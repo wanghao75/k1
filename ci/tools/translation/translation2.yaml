@@ -17,6 +17,8 @@ repositories:
 #    - sign_to: judith
 - owner: new-op
   repo: k3
+  trigger_command:
+  cancel_command:
   issue_triggers:
   - trigger_pr_path: 'docs/zh'
     file_extension: [doc, md, json, txt, log]
