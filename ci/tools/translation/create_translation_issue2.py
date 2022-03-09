@@ -131,14 +131,22 @@ def create_issue(acc_token, owner, repo, p_number, issue_title, assignee, body):
             print("issue has been made successfully, issue number is #{}".format(json.loads(res.text).get("number")))
 
 
-def main(owner, repo, token, number, ref):
+def get_pr_state(owner, repo, number):
+    url = "https://gitee.com/api/v5/repos/{}/{}/pulls/{}".format(owner, repo, number)
+    r = requests.get(url)
+    if r.status_code != 200:
+        print("bad request")
+        sys.exit(1)
+    return json.loads(r.text)["state"]
+
+
+def main(owner, repo, token, number):
     """
     main function
     :param owner: owner ep:openeuler
     :param repo: repo ep: docs
     :param token: access_token
     :param number: pull request number
-    :param ref: pull request ref
     :return:
     """
     content = load_yaml("translation2.yaml")
@@ -150,7 +158,7 @@ def main(owner, repo, token, number, ref):
     current_issue_title = {}
     file_extension = []
     trigger_path = []
-    pr_status = ref.split("/")[-1]
+    pr_state = get_pr_state(owner, repo, number)
     try:
         repositories = content["repositories"]
     except KeyError as e:
@@ -214,7 +222,7 @@ def main(owner, repo, token, number, ref):
                 if time1 < time2:
                     match_no = True
 
-                if file_count > 0 and match_yes and pr_status == "MERGE":
+                if file_count > 0 and match_yes and pr_status == "merged":
                     if results:
                         for result in results:
                             issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
@@ -243,13 +251,12 @@ def main(owner, repo, token, number, ref):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 6:
-        print('Required 5 parameters! The pr_owner, pr_repo, access_token, pr_number and pr_ref '
+    if len(sys.argv) != 5:
+        print('Required 4 parameters! The pr_owner, pr_repo, access_token and pr_number '
               'need to be transferred in sequence.')
         sys.exit(1)
     pr_owner = sys.argv[1]
     pr_repo = sys.argv[2]
     access_token = sys.argv[3]
     pr_number = sys.argv[4]
-    pr_ref = sys.argv[5]
-    main(pr_owner, pr_repo, access_token, pr_number, pr_ref)
+    main(pr_owner, pr_repo, access_token, pr_number)
