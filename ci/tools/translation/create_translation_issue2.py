@@ -183,7 +183,7 @@ def main(owner, repo, token, number):
                     .format(owner, repo, number)
                 comment_params = {
                     "access_token": token,
-                    "direction": "desc"
+                    "direction": "asc"
                 }
 
                 regex = re.compile("/translate yes")
