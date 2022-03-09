@@ -131,13 +131,14 @@ def create_issue(acc_token, owner, repo, p_number, issue_title, assignee, body):
             print("issue has been made successfully, issue number is #{}".format(json.loads(res.text).get("number")))
 
 
-def main(owner, repo, token, number):
+def main(owner, repo, token, number, ref):
     """
     main function
     :param owner: owner ep:openeuler
     :param repo: repo ep: docs
     :param token: access_token
     :param number: pull request number
+    :param ref: pull request ref
     :return:
     """
     content = load_yaml("translation2.yaml")
@@ -149,6 +150,7 @@ def main(owner, repo, token, number):
     current_issue_title = {}
     file_extension = []
     trigger_path = []
+    pr_status = ref.split("/")[-1]
     try:
         repositories = content["repositories"]
     except KeyError as e:
@@ -184,8 +186,8 @@ def main(owner, repo, token, number):
                     "direction": "asc"
                 }
 
-                regex = re.compile("/translate yes")
-                regex2 = re.compile("/translate no")
+                regex = re.compile("/translate-yes")
+                regex2 = re.compile("/translate-no")
                 r = requests.get(comment_url, params=comment_params)
                 if r.status_code != 200:
                     print("ERROR: bad request, status code: {}".format(r.status_code))
@@ -199,13 +201,12 @@ def main(owner, repo, token, number):
                         maps[i["body"]] = i["created_at"]
                     if regex2.fullmatch(i["body"]):
                         maps[i["body"]] = i["created_at"]
-                print(maps)
-                if "/translate yes" in maps.keys():
-                    time1 = maps["/translate yes"]
+                if "/translate-yes" in maps.keys():
+                    time1 = maps["/translate-yes"]
                 else:
                     time1 = ""
-                if "/translate no" in maps.keys():
-                    time2 = maps["/translate no"]
+                if "/translate-no" in maps.keys():
+                    time2 = maps["/translate-no"]
                 else:
                     time2 = ""
                 if time1 > time2:
@@ -213,7 +214,7 @@ def main(owner, repo, token, number):
                 if time1 < time2:
                     match_no = True
 
-                if file_count > 0 and match_yes:
+                if file_count > 0 and match_yes and pr_status == "MERGE":
                     if results:
                         for result in results:
                             issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
@@ -242,12 +243,13 @@ def main(owner, repo, token, number):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 5:
-        print('Required 4 parameters! The pr_owner, pr_repo, access_token and pr_number '
+    if len(sys.argv) != 6:
+        print('Required 5 parameters! The pr_owner, pr_repo, access_token, pr_number and pr_ref '
               'need to be transferred in sequence.')
         sys.exit(1)
     pr_owner = sys.argv[1]
     pr_repo = sys.argv[2]
     access_token = sys.argv[3]
     pr_number = sys.argv[4]
-    main(pr_owner, pr_repo, access_token, pr_number)
+    pr_ref = sys.argv[5]
+    main(pr_owner, pr_repo, access_token, pr_number, pr_ref)
