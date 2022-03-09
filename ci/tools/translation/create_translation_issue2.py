@@ -181,7 +181,7 @@ def main(owner, repo, token, number):
                     .format(owner, repo, number)
                 comment_params = {
                     "access_token": token,
-                    "direction": "desc",
+                    "direction": "desc"
                 }
 
                 regex = re.compile("/translate yes")
@@ -193,11 +193,18 @@ def main(owner, repo, token, number):
                 items = json.loads(r.text)
                 match_yes = False
                 match_no = False
+                maps = {}
                 for i in items:
-                    if regex.match(i["body"]):
-                        match_yes = True
-                    elif regex2.match(i["body"]):
-                        match_no = True
+                    if regex.fullmatch(i["body"]):
+                        maps[i["body"]] = i["created_at"]
+                    if regex2.fullmatch(i["body"]):
+                        maps[i["body"]] = i["created_at"]
+                time1 = maps["/translate yes"]
+                time2 = maps["/translate no"]
+                if time1 > time2:
+                    match_yes = True
+                else:
+                    match_no = True
 
                 if file_count > 0 and match_yes:
                     if results:
@@ -219,7 +226,7 @@ def main(owner, repo, token, number):
                 elif file_count > 0 and match_no:
                     continue
                 else:
-                    print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed"
+                    print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed or no need to create issue"
                           .format(owner, repo, trigger_path, file_extension))
 
     else:
