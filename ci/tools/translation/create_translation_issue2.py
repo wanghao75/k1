@@ -199,6 +199,7 @@ def main(owner, repo, token, number):
                         maps[i["body"]] = i["created_at"]
                     if regex2.fullmatch(i["body"]):
                         maps[i["body"]] = i["created_at"]
+                print(maps)
                 if "/translate yes" in maps.keys():
                     time1 = maps["/translate yes"]
                 else:
