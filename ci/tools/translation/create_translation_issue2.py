@@ -222,7 +222,7 @@ def main(owner, repo, token, number):
                 if time1 < time2:
                     match_no = True
 
-                if file_count > 0 and match_yes and pr_status == "merged":
+                if file_count > 0 and match_yes and pr_state == "merged":
                     if results:
                         for result in results:
                             issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
