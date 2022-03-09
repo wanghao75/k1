@@ -199,8 +199,14 @@ def main(owner, repo, token, number):
                         maps[i["body"]] = i["created_at"]
                     if regex2.fullmatch(i["body"]):
                         maps[i["body"]] = i["created_at"]
-                time1 = maps["/translate yes"]
-                time2 = maps["/translate no"]
+                if "/translate yes" in maps.keys():
+                    time1 = maps["/translate yes"]
+                else:
+                    time1 = ""
+                if "/translate no" in maps.keys():
+                    time2 = maps["/translate no"]
+                else:
+                    time2 = ""
                 if time1 > time2:
                     match_yes = True
                 else:
