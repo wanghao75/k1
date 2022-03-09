@@ -193,9 +193,11 @@ def main(owner, repo, token, number):
                     "access_token": token,
                     "direction": "asc"
                 }
+                trigger_command = repository["trigger_command"]
+                cancel_command = repository["cancel_command"]
 
-                regex = re.compile("/translate")
-                regex2 = re.compile("/translate cancel")
+                regex = re.compile(trigger_command)
+                regex2 = re.compile(cancel_command)
                 r = requests.get(comment_url, params=comment_params)
                 if r.status_code != 200:
                     print("ERROR: bad request, status code: {}".format(r.status_code))
