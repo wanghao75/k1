@@ -194,35 +194,35 @@ def main(owner, repo, token, number):
                     "direction": "asc"
                 }
 
-                regex = re.compile("/translate-yes")
-                regex2 = re.compile("/translate-no")
+                regex = re.compile("/translate")
+                regex2 = re.compile("/translate cancel")
                 r = requests.get(comment_url, params=comment_params)
                 if r.status_code != 200:
                     print("ERROR: bad request, status code: {}".format(r.status_code))
                     sys.exit(1)
                 items = json.loads(r.text)
-                match_yes = False
-                match_no = False
+                do_translate = False
+                cancel_translate = False
                 maps = {}
                 for i in items:
                     if regex.fullmatch(i["body"]):
                         maps[i["body"]] = i["created_at"]
                     if regex2.fullmatch(i["body"]):
                         maps[i["body"]] = i["created_at"]
-                if "/translate-yes" in maps.keys():
-                    time1 = maps["/translate-yes"]
+                if "/translate" in maps.keys():
+                    time1 = maps["/translate"]
                 else:
                     time1 = ""
-                if "/translate-no" in maps.keys():
-                    time2 = maps["/translate-no"]
+                if "/translate cancel" in maps.keys():
+                    time2 = maps["/translate cancel"]
                 else:
                     time2 = ""
                 if time1 > time2:
-                    match_yes = True
+                    do_translate = True
                 if time1 < time2:
-                    match_no = True
+                    cancel_translate = True
 
-                if file_count > 0 and match_yes and pr_state == "merged":
+                if file_count > 0 and do_translate and pr_state == "merged":
                     if results:
                         for result in results:
                             issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
@@ -239,7 +239,7 @@ def main(owner, repo, token, number):
                         for k in current_file_extension.keys():
                             create_issue(token, owner, repo, number, current_issue_title[k],
                                          current_assignee[k], pr_url)
-                elif file_count > 0 and match_no:
+                elif file_count > 0 and cancel_translate:
                     continue
                 else:
                     print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed or no need to create issue"
