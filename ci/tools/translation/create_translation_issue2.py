@@ -151,15 +151,13 @@ def main(owner, repo, token, number):
     trigger_path = []
     try:
         repositories = content["repositories"]
-        print(repositories)
     except KeyError as e:
         print(e)
         sys.exit(1)
     for r in repositories:
-        owner_repo_relationship[r["owner"]] = r["repo"]
-    print(owner_repo_relationship)
+        owner_repo_relationship[r["repo"]] = r["owner"]
 
-    if owner in owner_repo_relationship.keys() and repo in owner_repo_relationship.values():
+    if owner in owner_repo_relationship.values() and repo in owner_repo_relationship.keys():
         for repository in repositories:
             if owner == repository["owner"] and repo == repository["repo"]:
                 file_count = 0
@@ -183,7 +181,7 @@ def main(owner, repo, token, number):
                     .format(owner, repo, number)
                 comment_params = {
                     "access_token": token,
-                    "direction": "asc"
+                    "direction": "desc"
                 }
 
                 regex = re.compile("/translate yes")
