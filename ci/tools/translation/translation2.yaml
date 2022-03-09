@@ -16,7 +16,7 @@ repositories:
   repo: k3
   issue_triggers:
   - trigger_pr_path: 'docs/zh'
-    file_extension: [doc, md, json]
+    file_extension: [doc, md, json, txt, log]
     assign_issue:
     - title: "[Auto] This is an English translation issue."
     - sign_to: wanghaosq  
