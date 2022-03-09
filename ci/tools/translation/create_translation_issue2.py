@@ -210,7 +210,7 @@ def main(owner, repo, token, number):
                     time2 = ""
                 if time1 > time2:
                     match_yes = True
-                else:
+                if time1 < time2:
                     match_no = True
 
                 if file_count > 0 and match_yes:
