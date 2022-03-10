@@ -246,8 +246,21 @@ def main(owner, repo, token, number):
 
                 diff_files, pr_url = get_diff_files(owner, repo, number, token)
                 if do_translate and pr_state == "merged":
-                    create_issue(token, owner, repo, number, repository["issue_triggers"]["assign_issue"][0]["title"],
-                                 repository["issue_triggers"]["assign_issue"][1]["sign_to"], pr_url)
+                    if results:
+                        for result in results:
+                            issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
+                            issue_related_pr_number[issue_number] = result.get("number")
+                        if number in issue_related_pr_number.keys():
+                            print("Error: issue has already created, please go to check issue: #{}"
+                                  .format(issue_related_pr_number[number]))
+                            sys.exit(1)
+                        else:
+                            create_issue(token, owner, repo, number,
+                                         repository["issue_triggers"]["assign_issue"][0]["title"],
+                                         repository["issue_triggers"]["assign_issue"][1]["sign_to"], pr_url)
+                    else:
+                        create_issue(token, owner, repo, number, repository["issue_triggers"]["assign_issue"][0]["title"],
+                                     repository["issue_triggers"]["assign_issue"][1]["sign_to"], pr_url)
 
                 if cancel_translate:
                     print("not need to create issue for pull request 253")
