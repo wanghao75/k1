@@ -169,7 +169,7 @@ def main(owner, repo, token, number):
 
     if owner in owner_repo_relationship.values() and repo in owner_repo_relationship.keys():
         for repository in repositories:
-            if owner == repository["owner"] and repo == repository["repo"]:
+            if owner == repository["owner"] and repo == repository["repo"] and repo["auto_create_issue"]:
                 file_count = 0
                 diff_files, pr_url = get_diff_files(owner, repo, number, token)
                 for issue_trigger in repository["issue_triggers"]:
@@ -186,7 +186,27 @@ def main(owner, repo, token, number):
                         else:
                             continue
 
-                # get pr comments
+                if file_count > 0:
+                    if results:
+                        for result in results:
+                            issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
+                            issue_related_pr_number[issue_number] = result.get("number")
+                        if number in issue_related_pr_number.keys():
+                            print("Error: issue has already created, please go to check issue: #{}"
+                                  .format(issue_related_pr_number[number]))
+                            sys.exit(1)
+                        else:
+                            for k in current_file_extension.keys():
+                                create_issue(token, owner, repo, number, current_issue_title[k],
+                                             current_assignee[k], pr_url)
+                    else:
+                        for k in current_file_extension.keys():
+                            create_issue(token, owner, repo, number, current_issue_title[k],
+                                         current_assignee[k], pr_url)
+                else:
+                    print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed"
+                          .format(owner, repo, trigger_path, file_extension))
+            elif owner == repository["owner"] and repo == repository["repo"] and not repo["auto_create_issue"]:
                 comment_url = "https://gitee.com/api/v5/repos/{}/{}/pulls/{}/comments?page=1&per_page=100" \
                     .format(owner, repo, number)
                 comment_params = {
@@ -224,29 +244,17 @@ def main(owner, repo, token, number):
                 if time1 < time2:
                     cancel_translate = True
 
-                if file_count > 0 and do_translate and pr_state == "merged":
-                    if results:
-                        for result in results:
-                            issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
-                            issue_related_pr_number[issue_number] = result.get("number")
-                        if number in issue_related_pr_number.keys():
-                            print("Error: issue has already created, please go to check issue: #{}"
-                                  .format(issue_related_pr_number[number]))
-                            sys.exit(1)
-                        else:
-                            for k in current_file_extension.keys():
-                                create_issue(token, owner, repo, number, current_issue_title[k],
-                                             current_assignee[k], pr_url)
-                    else:
-                        for k in current_file_extension.keys():
-                            create_issue(token, owner, repo, number, current_issue_title[k],
-                                         current_assignee[k], pr_url)
-                elif file_count > 0 and cancel_translate:
-                    continue
-                else:
-                    print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed or no need to create issue"
-                          .format(owner, repo, trigger_path, file_extension))
+                diff_files, pr_url = get_diff_files(owner, repo, number, token)
+                if do_translate and pr_state == "merged":
+                    create_issue(acc_token, owner, repo,
+                                 number, repository["issue_triggers"]["assign_issue"]["title"],
+                                 repository["issue_triggers"]["assign_issue"]["sign_to"], pr_url)
 
+                if cancel_translate:
+                    print("not need to create issue for pull request")
+
+                else:
+                    print("not need to create issue for pull request")
     else:
         print("ERROR: wrong repo {} or wrong owner {}, please check!".format(repo, owner))
         sys.exit(1)
