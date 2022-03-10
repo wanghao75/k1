@@ -169,7 +169,7 @@ def main(owner, repo, token, number):
 
     if owner in owner_repo_relationship.values() and repo in owner_repo_relationship.keys():
         for repository in repositories:
-            if owner == repository["owner"] and repo == repository["repo"] and repo["auto_create_issue"]:
+            if owner == repository["owner"] and repo == repository["repo"] and repository["auto_create_issue"]:
                 file_count = 0
                 diff_files, pr_url = get_diff_files(owner, repo, number, token)
                 for issue_trigger in repository["issue_triggers"]:
@@ -206,7 +206,7 @@ def main(owner, repo, token, number):
                 else:
                     print("NOTE: repository: {}/{}'s files in {} that end with {} are not changed"
                           .format(owner, repo, trigger_path, file_extension))
-            elif owner == repository["owner"] and repo == repository["repo"] and not repo["auto_create_issue"]:
+            elif owner == repository["owner"] and repo == repository["repo"] and not repository["auto_create_issue"]:
                 comment_url = "https://gitee.com/api/v5/repos/{}/{}/pulls/{}/comments?page=1&per_page=100" \
                     .format(owner, repo, number)
                 comment_params = {
