@@ -261,12 +261,12 @@ def main(owner, repo, token, number):
                     else:
                         create_issue(token, owner, repo, number, repository["issue_triggers"]["assign_issue"][0]["title"],
                                      repository["issue_triggers"]["assign_issue"][1]["sign_to"], pr_url)
-
                 if cancel_translate:
-                    print("not need to create issue for pull request 253")
+                    print("not need to create issue for pull request")
 
                 else:
-                    print("not need to create issue for pull request 256")
+                    print(owner, repo, do_translate, cancel_translate)
+                    print("not need to create issue for pull request")
     else:
         print("ERROR: wrong repo {} or wrong owner {}, please check!".format(repo, owner))
         sys.exit(1)
