@@ -246,8 +246,7 @@ def main(owner, repo, token, number):
 
                 diff_files, pr_url = get_diff_files(owner, repo, number, token)
                 if do_translate and pr_state == "merged":
-                    create_issue(acc_token, owner, repo,
-                                 number, repository["issue_triggers"]["assign_issue"]["title"],
+                    create_issue(token, owner, repo, number, repository["issue_triggers"]["assign_issue"]["title"],
                                  repository["issue_triggers"]["assign_issue"]["sign_to"], pr_url)
 
                 if cancel_translate:
