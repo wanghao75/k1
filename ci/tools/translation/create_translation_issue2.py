@@ -193,8 +193,8 @@ def main(owner, repo, token, number):
                     "access_token": token,
                     "direction": "asc"
                 }
-                trigger_command = repository["trigger_command"]
-                cancel_command = repository["cancel_command"]
+                trigger_command = repository["trigger_command"] if repository["trigger_command"] else ""
+                cancel_command = repository["cancel_command"] if repository["cancel_command"] else ""
 
                 regex = re.compile(trigger_command)
                 regex2 = re.compile(cancel_command)
@@ -211,12 +211,12 @@ def main(owner, repo, token, number):
                         maps[i["body"]] = i["created_at"]
                     if regex2.fullmatch(i["body"]):
                         maps[i["body"]] = i["created_at"]
-                if "/translate" in maps.keys():
-                    time1 = maps["/translate"]
+                if trigger_command in maps.keys():
+                    time1 = maps[trigger_command]
                 else:
                     time1 = ""
-                if "/translate cancel" in maps.keys():
-                    time2 = maps["/translate cancel"]
+                if cancel_command in maps.keys():
+                    time2 = maps[cancel_command]
                 else:
                     time2 = ""
                 if time1 > time2:
