@@ -246,8 +246,8 @@ def main(owner, repo, token, number):
 
                 diff_files, pr_url = get_diff_files(owner, repo, number, token)
                 if do_translate and pr_state == "merged":
-                    create_issue(token, owner, repo, number, repository["issue_triggers"][0]["assign_issue"][0]["title"],
-                                 repository["issue_triggers"][0]["assign_issue"][1]["sign_to"], pr_url)
+                    create_issue(token, owner, repo, number, repository["issue_triggers"]["assign_issue"][0]["title"],
+                                 repository["issue_triggers"]["assign_issue"][1]["sign_to"], pr_url)
 
                 if cancel_translate:
                     print("not need to create issue for pull request")
