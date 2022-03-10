@@ -265,7 +265,6 @@ def main(owner, repo, token, number):
                     print("not need to create issue for pull request")
 
                 else:
-                    print(owner, repo, do_translate, cancel_translate)
                     print("not need to create issue for pull request")
     else:
         print("ERROR: wrong repo {} or wrong owner {}, please check!".format(repo, owner))
