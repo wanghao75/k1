@@ -261,7 +261,7 @@ def main(owner, repo, token, number):
                     else:
                         create_issue(token, owner, repo, number, repository["issue_triggers"]["assign_issue"][0]["title"],
                                      repository["issue_triggers"]["assign_issue"][1]["sign_to"], pr_url)
-                if cancel_translate:
+                elif cancel_translate:
                     print("not need to create issue for pull request")
 
                 else:
