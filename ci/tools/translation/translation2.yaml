@@ -1,12 +1,11 @@
 repositories:
 - owner: new-op
   repo: community
+  auto_create_issue: false
   # trigger_command and cancel_command are used to controll creating issue or not
   trigger_command: "/translate"
   cancel_command: "/translate cancel"
   issue_triggers:
-  - trigger_pr_path: 'docs/zh'
-    file_extension: [doc, md, json]
     assign_issue:
     - title: "[Auto] This is an English translation issue."
     - sign_to: wanghaosq    
@@ -17,8 +16,7 @@ repositories:
 #    - sign_to: judith
 - owner: new-op
   repo: k3
-  # trigger_command:
-  # cancel_command:
+  auto_create_issue: true
   issue_triggers:
   - trigger_pr_path: 'docs/zh'
     file_extension: [doc, md, json, txt, log]
