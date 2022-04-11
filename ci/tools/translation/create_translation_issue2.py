@@ -209,12 +209,14 @@ def main(owner, repo, token, number):
                         else:
                             for k in current_file_extension.keys():
                                 if pr_issue_title.startswith("[Auto]"):
+                                    print(pr_issue_title)
                                     continue
                                 create_issue(token, owner, repo, number, current_issue_title[k],
                                              current_assignee[k], pr_url)
                     else:
                         for k in current_file_extension.keys():
                             if pr_issue_title.startswith("[Auto]"):
+                                print(pr_issue_title)
                                 continue
                             create_issue(token, owner, repo, number, current_issue_title[k],
                                          current_assignee[k], pr_url)
