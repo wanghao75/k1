@@ -145,7 +145,7 @@ def get_pr_issue_title(issue_url):
     if r.status_code != 200:
         print("bad request")
         sys.exit(1)
-    res = r.json()[0]
+    res = r.json()
     if len(res) == 0:
         return ""
     return r.json()[0]["title"]
