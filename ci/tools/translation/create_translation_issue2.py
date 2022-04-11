@@ -149,7 +149,7 @@ def main(owner, repo, token, number):
     :param number: pull request number
     :return:
     """
-    content = load_yaml("translation2.yaml")
+    content = load_yaml("translation.yaml")
     results = check_issue_exits(token, owner, repo)
     issue_related_pr_number = {}
     owner_repo_relationship = {}
@@ -177,13 +177,6 @@ def main(owner, repo, token, number):
                     trigger_path.append(issue_trigger["trigger_pr_path"])
                     for diff_file in diff_files:
                         if diff_file.startswith(issue_trigger["trigger_pr_path"]) \
-                                and diff_file.split('.')[-1] in issue_trigger["file_extension"]:
-                            print("file {} has been changed".format(diff_file))
-                            file_count += 1
-                            current_assignee[issue_trigger["trigger_pr_path"]] = issue_trigger["assign_issue"][1]["sign_to"]
-                            current_file_extension[issue_trigger["trigger_pr_path"]] = issue_trigger["file_extension"]
-                            current_issue_title[issue_trigger["trigger_pr_path"]] = issue_trigger["assign_issue"][0]["title"]
-                        elif issue_trigger["trigger_pr_path"] in diff_file \
                                 and diff_file.split('.')[-1] in issue_trigger["file_extension"]:
                             print("file {} has been changed".format(diff_file))
                             file_count += 1
