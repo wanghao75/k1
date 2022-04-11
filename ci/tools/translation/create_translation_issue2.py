@@ -145,6 +145,9 @@ def get_pr_issue_title(issue_url):
     if r.status_code != 200:
         print("bad request")
         sys.exit(1)
+    res = r.json()[0]
+    if len(res) == 0:
+        return ""
     return r.json()[0]["title"]
 
 
@@ -157,7 +160,7 @@ def main(owner, repo, token, number):
     :param number: pull request number
     :return:
     """
-    content = load_yaml("translation.yaml")
+    content = load_yaml("translation2.yaml")
     results = check_issue_exits(token, owner, repo)
     issue_related_pr_number = {}
     owner_repo_relationship = {}
