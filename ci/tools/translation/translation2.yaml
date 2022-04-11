@@ -3,7 +3,7 @@ repositories:
   repo: docs
   auto_create_issue: true
   issue_triggers:
-  - trigger_pr_path: 'docs'
+  - trigger_pr_path: 'source_zh_cn'
     file_extension: [doc, md, json]
     assign_issue:
     - title: "[Auto] This is an English translation issue."
