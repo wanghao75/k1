@@ -13,3 +13,13 @@ repositories:
     assign_issue:
     - title: "[Auto] This is a Chinese translation issue."
     - sign_to: whsq
+  - trigger_pr_path: 'content/docs-lite/zh'
+    file_extension: [doc, md, json]
+    assign_issue:
+    - title: "[Auto] This is an English translation issue."
+    - sign_to: whsq
+  - trigger_pr_path: 'content/docs-lite/en'
+    file_extension: [doc, md, json]
+    assign_issue:
+    - title: "[Auto] This is a Chinese translation issue."
+    - sign_to: whsq
