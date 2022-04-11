@@ -183,9 +183,8 @@ def main(owner, repo, token, number):
                             current_assignee[issue_trigger["trigger_pr_path"]] = issue_trigger["assign_issue"][1]["sign_to"]
                             current_file_extension[issue_trigger["trigger_pr_path"]] = issue_trigger["file_extension"]
                             current_issue_title[issue_trigger["trigger_pr_path"]] = issue_trigger["assign_issue"][0]["title"]
-                        elif diff_file.startswith(issue_trigger["trigger_pr_path"]) \
-                                and diff_file.split('.')[-1] in issue_trigger["file_extension"] \
-                                and "source_zh_cn" in diff_file:
+                        elif issue_trigger["trigger_pr_path"] in diff_file \
+                                and diff_file.split('.')[-1] in issue_trigger["file_extension"]:
                             print("file {} has been changed".format(diff_file))
                             file_count += 1
                             current_assignee[issue_trigger["trigger_pr_path"]] = issue_trigger["assign_issue"][1]["sign_to"]
