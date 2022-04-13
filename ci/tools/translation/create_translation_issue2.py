@@ -200,6 +200,8 @@ def main(owner, repo, token, number):
                         zh_file.append(diff_file.replace("zh/", ""))
                     elif diff_file.startswith(issue_trigger["trigger_pr_path"]) \
                             and diff_file.split('.')[-1] in issue_trigger["file_extension"] and "/en" in issue_trigger["trigger_pr_path"]:
+                        print("file {} has been changed".format(diff_file))
+                        file_count += 1
                         current_assignee["en"] = issue_trigger["assign_issue"][1]["sign_to"]
                         current_file_extension["en"] = issue_trigger["file_extension"]
                         current_issue_title["en"] = issue_trigger["assign_issue"][0]["title"]
