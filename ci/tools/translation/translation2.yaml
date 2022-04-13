@@ -11,7 +11,7 @@ repositories:
   - trigger_pr_path: 'content/en'
     file_extension: [doc, md, json]
     assign_issue:
-    - title: "[Auto] This is a Chinese translation issue."
+    - title: "[Auto] 这是一个中文翻译需求."
     - sign_to: whsq
   - trigger_pr_path: 'content/docs-lite/zh'
     file_extension: [doc, md, json]
@@ -21,7 +21,7 @@ repositories:
   - trigger_pr_path: 'content/docs-lite/en'
     file_extension: [doc, md, json]
     assign_issue:
-    - title: "[Auto] This is a Chinese translation issue."
+    - title: "[Auto] 这是一个中文翻译需求."
     - sign_to: whsq
 - owner: whsq
   repo: docs
