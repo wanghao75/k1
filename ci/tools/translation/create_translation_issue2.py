@@ -213,7 +213,7 @@ def main(owner, repo, token, number):
                     changed_same_files = True
                 else:
                     changed_same_files = False
-            print("t or f: ",, changed_same_files)
+            print("t or f: ", changed_same_files)
             if file_count > 0 and not changed_same_files:
                 print("current: ", current_file_extension, current_assignee, current_issue_title)
                 if results:
