@@ -98,6 +98,7 @@ def create_issue(acc_token, owner, repo, p_number, issue_title, assignee, body):
     :param body: pull request url
     :return:
     """
+    print("call create function")
     issue_url = 'https://gitee.com/api/v5/repos/{}/issues'.format(owner)
     param = {
         "access_token": acc_token,
@@ -208,12 +209,13 @@ def main(owner, repo, token, number):
                         en_file.append(diff_file.replace("en/", ""))
                     elif diff_file.startswith(issue_trigger["trigger_pr_path"]) \
                             and diff_file.split('.')[-1] in issue_trigger["file_extension"]:
-                        print("file {} has been changed".format(diff_file))
-                        file_count += 1
-                        current_assignee["zh"] = issue_trigger["assign_issue"][1]["sign_to"]
-                        current_file_extension["zh"] = issue_trigger["file_extension"]
-                        current_issue_title["zh"] = issue_trigger["assign_issue"][0]["title"]
-                        zh_file.append(diff_file)
+                        if issue_trigger["trigger_pr_path"] in ["contribute"]:
+                            print("file {} has been changed".format(diff_file))
+                            file_count += 1
+                            current_assignee["zh"] = issue_trigger["assign_issue"][1]["sign_to"]
+                            current_file_extension["zh"] = issue_trigger["file_extension"]
+                            current_issue_title["zh"] = issue_trigger["assign_issue"][0]["title"]
+                            zh_file.append(diff_file)
                     else:
                         continue
             changed_same_files = False
@@ -227,6 +229,7 @@ def main(owner, repo, token, number):
                     for result in results:
                         issue_number = result.get("title").split('.')[-1].replace('[', '').replace(']', '')
                         issue_related_pr_number[issue_number] = result.get("number")
+                    print(number, issue_related_pr_number)
                     if number in issue_related_pr_number.keys():
                         print("Error: issue has already created, please go to check issue: #{}"
                               .format(issue_related_pr_number[number]))
