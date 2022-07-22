@@ -209,7 +209,7 @@ def main(owner, repo, token, number):
                         en_file.append(diff_file.replace("en/", ""))
                     elif diff_file.startswith(issue_trigger["trigger_pr_path"]) \
                             and diff_file.split('.')[-1] in issue_trigger["file_extension"]:
-                        if issue_trigger["trigger_pr_path"] in ["contribute"]:
+                        if issue_trigger["trigger_pr_path"] in ["contribute/"]:
                             print("file {} has been changed".format(diff_file))
                             file_count += 1
                             current_assignee["zh"] = issue_trigger["assign_issue"][1]["sign_to"]
