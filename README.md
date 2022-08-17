@@ -1,8 +1,8 @@
 # k1
 
 #### 介绍
-k1dadadadadadadadad
-adadadadadada
+k1
+
 #### 软件架构
 软件架构说明
 
