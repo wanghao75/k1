@@ -1,0 +1,24 @@
+relations:
+  - path:
+      - sig/TC/new-op/c/community.yaml
+      - en/T1
+    owner:
+      - gitee_id: whsq
+        name: wanghao
+        organization: xxx
+        email: xxx@xx.com
+  - path:
+      - sig/sig-Compatibility-Infra/new-op/a/app.yaml
+      - zh/T1
+    owner:
+      - gitee_id: wanghaosq
+        name: wanghao
+        organization: xxx
+        email: xxx@xx.com
+  - path:
+      - README.md
+    owner:
+      - gitee_id: Clergy97
+        name: wanghao
+        organization: xxx
+        email: xxx@xx.com
