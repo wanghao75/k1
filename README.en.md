@@ -1,5 +1,4 @@
 # k1
-[Reason why the repository's state is set to closed](https://gitee.com/openeuler/community/pulls/4124): https://gitee.com/openeuler/community/pulls/4124
 
 #### 介绍
 k1
