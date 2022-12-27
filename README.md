@@ -1,6 +1,5 @@
 # k1
-[仓库状态设置为关闭的原因](https://gitee.com/openeuler/community/pulls/4124): https://gitee.com/openeuler/community/pulls/4124
-[仓库状态设置为关闭的原因](https://gitee.com/openeuler/community/pulls/4124): https://gitee.com/openeuler/community/pulls/4124
+
 #### 介绍
 k1
 
