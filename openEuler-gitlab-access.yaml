@@ -1,0 +1,7 @@
+service: "gitlab-access"
+developer: wanghao
+contact: "shalldows@163.com"
+monitor:
+  - method: "POST"
+    api: "https://robot-gitlab.osinfra.cn/gitlab-hook"
+    rawdata: ""

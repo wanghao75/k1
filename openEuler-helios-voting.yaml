@@ -1,0 +1,7 @@
+service: "helios-voting"
+developer: wanghao
+contact: "shalldows@163.com"
+monitor:
+  - method: "GET"
+    api: "https://helios-voting.osinfra.cn/about/"
+    rawdata: ""
