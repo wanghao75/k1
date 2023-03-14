@@ -1,9 +1,9 @@
 relations:
   - path:
-      - sig/TC/new-op/c/community.yaml
+      - sig/*/new-op/c/community.yaml
       - en/T1
     owner:
-      - gitee_id: whsq
+      - gitee_id: wanghaosq
         name: wanghao
         organization: xxx
         email: xxx@xx.com
