@@ -8,7 +8,7 @@ relations:
         organization: xxx
         email: xxx@xx.com
   - path:
-      - sig/sig-Compatibility-Infra/new-op/a/app.yaml
+      - apk/*/wh/*/app/
       - zh/T1
     owner:
       - gitee_id: wanghaosq
